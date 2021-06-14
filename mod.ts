@@ -23,43 +23,69 @@ type Option = {
 function parseOption(args: Record<string, unknown>): Option {
   return {
     platform: args.server ? "server" : args.client ? "client" : null,
-    categories: Array.isArray(args.categories)
-      ? args.categories.map((x) => x + "")
-      : [args.categories + ""] ?? [],
+    categories: Array.isArray(args.category)
+      ? args.category.map((x) => x + "")
+      : typeof args.category == "string"
+      ? [args.category + ""]
+      : [],
   };
 }
 
 async function base(source: string, opts: Option) {
   const content = await fetchAny(source);
   const parsed = parse(content) as Schema;
+  let mods = parsed.mods;
   const sp = wait({
     prefix: "fetching",
-    text: `0/${parsed.mods.length} mods (0 resolving)`,
+    text: `0/${mods.length} mods (0 resolving)`,
+  }).start();
+  const warn = (text: string) => {
+    sp.prefix = colors.bold(colors.yellow("filter"));
+    sp.warn(text);
+    sp.prefix = "fetching";
+    sp.start();
+  };
+  if (opts.platform) {
+    mods = mods.filter((x) => {
+      const ret = x.platform == undefined || x.platform === opts.platform;
+      if (!ret) {
+        warn(
+          `removing ${colors.bold(x.id)}${
+            x.name != null ? ` (${colors.italic(x.name)})` : ""
+          } due to platform filter (require ${colors.red(opts.platform!)})`,
+        );
+      }
+      return ret;
+    });
+  }
+  mods = mods.filter((x) => {
+    const ret = x.category == undefined || opts.categories.includes(x.category);
+    if (!ret) {
+      warn(
+        `removing ${colors.bold(x.id)}${
+          x.name != null ? ` (${colors.italic(x.name)})` : ""
+        } due to category filter (${
+          opts.categories.map((x) => colors.red(x)).join(", ")
+        })`,
+      );
+    }
+    return ret;
   });
   let count = 0;
   let resolving = 0;
   const update = () => {
-    sp.text = `${count}/${parsed.mods.length} mods (${resolving -
-      count} resolving)`;
+    sp.text = `${count}/${mods.length} mods (${resolving - count} resolving)`;
     sp.start();
   };
-  let mods = parsed.mods;
-  if (opts.platform) {
-    mods = mods.filter((x) => !x.platform || x.platform == opts.platform);
-  }
-  if (opts.categories.length != 0) {
-    mods = mods.filter((x) =>
-      !x.category || opts.categories.includes(x.category)
-    );
-  }
+  sp.stop();
   queueMicrotask(() => sp.start());
-  const ret = await Promise.all(parsed.mods.map(async (mod) => {
+  const ret = await Promise.all(mods.map(async (mod) => {
     const data = await fetchInfo(new URL(mod.id));
     resolving++;
     const info = await resolveVersion(parsed.version, mod, data);
     count++;
     sp.prefix = colors.bold(
-      `[${count}/${parsed.mods.length}] ${colors.green("fetched")}`,
+      `[${count}/${mods.length}] ${colors.green("fetched")}`,
     );
     sp.succeed(`${colors.green(mod.id)} ${colors.bold(data.name)}`);
     sp.prefix = "fetching";
@@ -89,7 +115,6 @@ program
     name: "dump",
     description: "Dump configuration file",
     fn(args) {
-      console.log(args);
       const source = args._[0] + "";
       return base(source, parseOption(args));
     },
