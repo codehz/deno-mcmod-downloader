@@ -64,9 +64,7 @@ async function base(source: string, opts: Option) {
       warn(
         `removing ${colors.bold(x.id)}${
           x.name != null ? ` (${colors.italic(x.name)})` : ""
-        } due to category filter (${
-          opts.categories.map((x) => colors.red(x)).join(", ")
-        })`,
+        } due to category filter (require ${colors.red(x.category ?? "")})`,
       );
     }
     return ret;
