@@ -164,7 +164,7 @@ async function parseModrinth(data: unknown): Promise<ModInfo> {
   ) as ModrinthTeamUserInfo[];
   const authors = await Promise.all(teamMembers.map(async (member) => {
     const ui = await downloadJson(
-      `https://api.modrinth.com/api/v1/user/${member.user_id}`,
+      `https://${modrinth.api}/api/v1/user/${member.user_id}`,
     ) as ModrinthUserInfo;
     return { name: ui.name ?? ui.username, title: member.role };
   }));
