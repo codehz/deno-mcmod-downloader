@@ -1,4 +1,4 @@
-import type { DownloadInfo } from "./api.ts";
+import type { DownloadInfo } from "./api/mod.ts";
 import { join } from "https://deno.land/std@0.98.0/path/mod.ts";
 import { grantOrThrow } from "https://deno.land/std@0.98.0/permissions/mod.ts";
 import {
