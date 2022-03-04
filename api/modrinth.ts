@@ -1,8 +1,8 @@
-import { Sha1 } from "https://deno.land/std@0.98.0/hash/sha1.ts";
+import { Sha1 } from "https://deno.land/std@0.128.0/hash/sha1.ts";
 import type { Downloadable, DownloadInfo, ModInfo } from "./base.ts";
 import { ReleaseChannel } from "../types.ts";
 import { downloadJson } from "../utils.ts";
-import { grantOrThrow } from "https://deno.land/std@0.98.0/permissions/mod.ts";
+import { grantOrThrow } from "https://deno.land/std@0.128.0/permissions/mod.ts";
 
 const modrinth = {
   www: `www.modrinth.com`,

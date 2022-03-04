@@ -1,5 +1,5 @@
-import { fromFileUrl } from "https://deno.land/std@0.98.0/path/mod.ts";
-import { grantOrThrow } from "https://deno.land/std@0.98.0/permissions/mod.ts";
+import { fromFileUrl } from "https://deno.land/std@0.128.0/path/mod.ts";
+import { grantOrThrow } from "https://deno.land/std@0.128.0/permissions/mod.ts";
 
 export function fetchAny(target: string) {
   try {

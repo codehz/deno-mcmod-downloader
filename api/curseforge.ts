@@ -1,5 +1,5 @@
-import { Md5 } from "https://deno.land/std@0.98.0/hash/md5.ts";
-import { grantOrThrow } from "https://deno.land/std@0.98.0/permissions/mod.ts";
+import { Md5 } from "https://deno.land/std@0.128.0/hash/md5.ts";
+import { grantOrThrow } from "https://deno.land/std@0.128.0/permissions/mod.ts";
 import { ReleaseChannel } from "../types.ts";
 import { downloadJson } from "../utils.ts";
 import { Downloadable, DownloadInfo, ModInfo } from "./base.ts";

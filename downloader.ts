@@ -1,13 +1,13 @@
 import type { DownloadInfo } from "./api/mod.ts";
-import { join } from "https://deno.land/std@0.98.0/path/mod.ts";
-import { grantOrThrow } from "https://deno.land/std@0.98.0/permissions/mod.ts";
+import { join } from "https://deno.land/std@0.128.0/path/mod.ts";
+import { grantOrThrow } from "https://deno.land/std@0.128.0/permissions/mod.ts";
 import {
   ensureDir,
   exists,
   move,
-} from "https://deno.land/std@0.98.0/fs/mod.ts";
-import * as colors from "https://deno.land/std@0.98.0/fmt/colors.ts";
-import { wait } from "https://deno.land/x/wait@0.1.11/mod.ts";
+} from "https://deno.land/std@0.128.0/fs/mod.ts";
+import * as colors from "https://deno.land/std@0.128.0/fmt/colors.ts";
+import { wait } from "https://deno.land/x/wait@0.1.12/mod.ts";
 
 type DownloadState = {
   filename: string;

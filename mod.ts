@@ -1,12 +1,12 @@
-import { parse } from "https://deno.land/std@0.98.0/encoding/yaml.ts";
+import { parse } from "https://deno.land/std@0.128.0/encoding/yaml.ts";
 import { fetchInfo, resolveVersion } from "./api.ts";
-import { wait } from "https://deno.land/x/wait@0.1.11/mod.ts";
+import { wait } from "https://deno.land/x/wait@0.1.12/mod.ts";
 import { fetchAny } from "./fetch-any.ts";
 import { Program } from "https://deno.land/x/program@0.1.6/mod.ts";
 import Downloader from "./downloader.ts";
-import { ensureDir } from "https://deno.land/std@0.98.0/fs/ensure_dir.ts";
-import { grantOrThrow } from "https://deno.land/std@0.98.0/permissions/mod.ts";
-import * as colors from "https://deno.land/std@0.98.0/fmt/colors.ts";
+import { ensureDir } from "https://deno.land/std@0.128.0/fs/ensure_dir.ts";
+import { grantOrThrow } from "https://deno.land/std@0.128.0/permissions/mod.ts";
+import * as colors from "https://deno.land/std@0.128.0/fmt/colors.ts";
 import type { Schema } from "./types.ts";
 
 const program = new Program({
