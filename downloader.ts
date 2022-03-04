@@ -45,7 +45,7 @@ export default class Downloader {
     }).start();
     const filelist = new Set(this.list.map((x) => x.filename));
     for await (const entry of Deno.readDir(modsBase)) {
-      if (!entry.isFile || !entry.name.endsWith(".jar")) continue;
+      if (!entry.isFile || !entry.name.endsWith(".jar") || !entry.name.startsWith("_")) continue;
       if (!filelist.has(entry.name)) {
         await move(
           join(modsBase, entry.name),
